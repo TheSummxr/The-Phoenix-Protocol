@@ -1,0 +1,11 @@
+﻿plugins {
+    id 'fabric-loom' version '1.17.12'
+}
+dependencies {
+    minecraft 'com.mojang:minecraft:1.21.11'
+}
+task testLoom {
+    doLast {
+        println loom.metaClass.methods*.name.unique().sort().join(', ')
+    }
+}
