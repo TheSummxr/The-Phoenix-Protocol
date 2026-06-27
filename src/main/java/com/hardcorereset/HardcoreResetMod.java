@@ -66,7 +66,7 @@ public class HardcoreResetMod implements DedicatedServerModInitializer {
     }
 
     private void registerCommands(com.mojang.brigadier.CommandDispatcher<net.minecraft.commands.CommandSourceStack> dispatcher) {
-        dispatcher.register(net.minecraft.commands.Commands.literal("hardcorereset")
+        dispatcher.register(net.minecraft.commands.Commands.literal("phoenixprotocol")
             .requires(source -> source.getEntity() == null || (source.isPlayer() && source.getServer().getPlayerList().isOp(source.getPlayer().nameAndId())))
             .then(net.minecraft.commands.Commands.literal("config")
                 .then(net.minecraft.commands.Commands.literal("set")
