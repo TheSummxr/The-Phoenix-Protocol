@@ -36,3 +36,8 @@ These commands allow you to modify the server's reset behavior and rules on the 
 
 - `/hardcorereset player <player> set_limit <lives>` - Sets a custom life limit for a specific player and resets their current cycle deaths.
 - `/hardcorereset player <player> clear_limit` - Clears any custom life limit set for a specific player, returning them to the default limit.
+
+### Bug Feedback and Version Information
+
+As of right now, this mod is only avaialble for version 26.2 (as it is currently the latest non snapshot version). I do not plan to update this regularly unless asked to. I do not plan on backporting so do not create an Issue ticket unless you are requesting an update to a NEWER version.
+If you find any major bugs / issues, feel free to leave a ticket in issues and i will try to respond in a timely manner. 
