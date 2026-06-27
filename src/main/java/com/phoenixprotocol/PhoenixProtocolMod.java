@@ -1,10 +1,10 @@
-package com.hardcorereset;
+package com.phoenixprotocol;
 
-import com.hardcorereset.config.HardcoreConfig;
-import com.hardcorereset.death.DeathTracker;
-import com.hardcorereset.dimension.DimensionManager;
-import com.hardcorereset.lobby.LobbyBuilder;
-import com.hardcorereset.reset.ResetSequence;
+import com.phoenixprotocol.config.HardcoreConfig;
+import com.phoenixprotocol.death.DeathTracker;
+import com.phoenixprotocol.dimension.DimensionManager;
+import com.phoenixprotocol.lobby.LobbyBuilder;
+import com.phoenixprotocol.reset.ResetSequence;
 import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -24,12 +24,12 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class HardcoreResetMod implements DedicatedServerModInitializer {
+public class PhoenixProtocolMod implements DedicatedServerModInitializer {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger("HardcoreReset");
-    private static HardcoreResetMod INSTANCE;
+    private static final Logger LOGGER = LoggerFactory.getLogger("PhoenixProtocol");
+    private static PhoenixProtocolMod INSTANCE;
 
-    public static HardcoreResetMod getInstance() {
+    public static PhoenixProtocolMod getInstance() {
         return INSTANCE;
     }
 
@@ -43,9 +43,9 @@ public class HardcoreResetMod implements DedicatedServerModInitializer {
     @Override
     public void onInitializeServer() {
         INSTANCE = this;
-        LOGGER.info("[HardcoreReset] ═══════════════════════════════════════════");
-        LOGGER.info("[HardcoreReset]   HardcoreReset Mod Initializing (Mojmap)");
-        LOGGER.info("[HardcoreReset] ═══════════════════════════════════════════");
+        LOGGER.info("[PhoenixProtocol] ═══════════════════════════════════════════");
+        LOGGER.info("[PhoenixProtocol]   HardcoreReset Mod Initializing (Mojmap)");
+        LOGGER.info("[PhoenixProtocol] ═══════════════════════════════════════════");
 
         ServerLifecycleEvents.SERVER_STARTED.register(this::onServerStarted);
         ServerTickEvents.END_SERVER_TICK.register(this::onEndServerTick);
@@ -212,7 +212,7 @@ public class HardcoreResetMod implements DedicatedServerModInitializer {
         if (limbo != null) {
             LobbyBuilder.build(limbo);
         } else {
-            LOGGER.error("[HardcoreReset] Limbo dimension not found during startup!");
+            LOGGER.error("[PhoenixProtocol] Limbo dimension not found during startup!");
         }
     }
 

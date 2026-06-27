@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "com.hardcorereset.mixin",
+  "package": "com.phoenixprotocol.mixin",
   "compatibilityLevel": "JAVA_25",
   "mixins": [
     "MinecraftServerAccessor",
@@ -16,3 +16,4 @@
     "defaultRequire": 1
   }
 }
+

@@ -1,4 +1,4 @@
-package com.hardcorereset.config;
+package com.phoenixprotocol.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -36,7 +36,7 @@ import java.util.Map;
  */
 public class HardcoreConfig {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger("HardcoreReset");
+    private static final Logger LOGGER = LoggerFactory.getLogger("PhoenixProtocol");
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     // ── Config Fields ──────────────────────────────────────────────────────
@@ -93,7 +93,7 @@ public class HardcoreConfig {
      * @return the loaded or newly-created config instance
      */
     public static HardcoreConfig load(Path serverRunDir) {
-        Path configDir = serverRunDir.resolve("config").resolve("hardcorereset");
+        Path configDir = serverRunDir.resolve("config").resolve("phoenixprotocol");
         Path configFile = configDir.resolve("config.json");
 
         HardcoreConfig config;
@@ -105,14 +105,14 @@ public class HardcoreConfig {
                 if (config == null) {
                     config = new HardcoreConfig();
                 }
-                LOGGER.info("[HardcoreReset] Loaded config: {} resets total, default death limit = {}",
+                LOGGER.info("[PhoenixProtocol] Loaded config: {} resets total, default death limit = {}",
                         config.total_world_resets, config.default_death_limit);
             } catch (Exception e) {
-                LOGGER.error("[HardcoreReset] Failed to read config.json, using defaults", e);
+                LOGGER.error("[PhoenixProtocol] Failed to read config.json, using defaults", e);
                 config = new HardcoreConfig();
             }
         } else {
-            LOGGER.info("[HardcoreReset] No config found, creating default config.json");
+            LOGGER.info("[PhoenixProtocol] No config found, creating default config.json");
             config = new HardcoreConfig();
 
             // Add example entries so the server operator understands the format
@@ -133,7 +133,7 @@ public class HardcoreConfig {
      */
     public void save() {
         if (configPath == null) {
-            LOGGER.warn("[HardcoreReset] Cannot save config: path is null");
+            LOGGER.warn("[PhoenixProtocol] Cannot save config: path is null");
             return;
         }
 
@@ -142,7 +142,7 @@ public class HardcoreConfig {
             String json = GSON.toJson(this);
             Files.writeString(configPath, json);
         } catch (IOException e) {
-            LOGGER.error("[HardcoreReset] Failed to save config.json", e);
+            LOGGER.error("[PhoenixProtocol] Failed to save config.json", e);
         }
     }
 
@@ -186,7 +186,7 @@ public class HardcoreConfig {
     public int incrementResetCount() {
         total_world_resets++;
         save();
-        LOGGER.info("[HardcoreReset] World reset #{} recorded", total_world_resets);
+        LOGGER.info("[PhoenixProtocol] World reset #{} recorded", total_world_resets);
         return total_world_resets;
     }
 

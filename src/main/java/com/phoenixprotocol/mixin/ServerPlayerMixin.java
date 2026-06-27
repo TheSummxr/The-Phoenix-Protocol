@@ -1,13 +1,13 @@
-package com.hardcorereset.mixin;
+package com.phoenixprotocol.mixin;
 
-import com.hardcorereset.HardcoreResetMod;
+import com.phoenixprotocol.PhoenixProtocolMod;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import com.hardcorereset.dimension.DimensionManager;
+import com.phoenixprotocol.dimension.DimensionManager;
 
 @Mixin(ServerPlayer.class)
 public abstract class ServerPlayerMixin {
@@ -16,7 +16,7 @@ public abstract class ServerPlayerMixin {
     private void onHardcoreDeath(DamageSource damageSource, CallbackInfo ci) {
         ServerPlayer player = (ServerPlayer) (Object) this;
 
-        com.hardcorereset.config.HardcoreConfig config = HardcoreResetMod.getInstance().getConfig();
+        com.phoenixprotocol.config.HardcoreConfig config = PhoenixProtocolMod.getInstance().getConfig();
 
         if (config != null) {
             if (!config.isCountPvpDeaths()) {
@@ -33,6 +33,6 @@ public abstract class ServerPlayerMixin {
             }
         }
 
-        HardcoreResetMod.getInstance().handlePlayerDeath(player);
+        PhoenixProtocolMod.getInstance().handlePlayerDeath(player);
     }
 }

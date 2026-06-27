@@ -1,4 +1,4 @@
-package com.hardcorereset.mixin;
+package com.phoenixprotocol.mixin;
 
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;

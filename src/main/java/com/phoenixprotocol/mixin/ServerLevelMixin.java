@@ -1,4 +1,4 @@
-package com.hardcorereset.mixin;
+package com.phoenixprotocol.mixin;
 
 import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.server.level.ServerLevel;

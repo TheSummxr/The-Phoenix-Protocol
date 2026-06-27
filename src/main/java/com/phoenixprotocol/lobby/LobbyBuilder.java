@@ -1,4 +1,4 @@
-package com.hardcorereset.lobby;
+package com.phoenixprotocol.lobby;
 
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.server.level.ServerLevel;
@@ -14,13 +14,13 @@ import org.slf4j.LoggerFactory;
  */
 public class LobbyBuilder {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger("HardcoreReset");
+    private static final Logger LOGGER = LoggerFactory.getLogger("PhoenixProtocol");
     public static final BlockPos LOBBY_CENTER = new BlockPos(0, 100, 0);
     private static final int HALF_SIZE = 3;
     private static final int WALL_HEIGHT = 4;
 
     public static void build(ServerLevel overworld) {
-        LOGGER.info("[HardcoreReset] Building void lobby at ({}, {}, {})",
+        LOGGER.info("[PhoenixProtocol] Building void lobby at ({}, {}, {})",
                 LOBBY_CENTER.getX(), LOBBY_CENTER.getY(), LOBBY_CENTER.getZ());
 
         int cx = LOBBY_CENTER.getX();
@@ -104,6 +104,6 @@ public class LobbyBuilder {
             }
         }
 
-        LOGGER.info("[HardcoreReset] Void lobby built successfully");
+        LOGGER.info("[PhoenixProtocol] Void lobby built successfully");
     }
 }

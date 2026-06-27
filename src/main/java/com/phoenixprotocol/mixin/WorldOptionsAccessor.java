@@ -1,4 +1,4 @@
-package com.hardcorereset.mixin;
+package com.phoenixprotocol.mixin;
 
 import net.minecraft.world.level.levelgen.WorldOptions;
 import org.spongepowered.asm.mixin.Mixin;

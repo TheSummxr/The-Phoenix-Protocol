@@ -1,7 +1,7 @@
-package com.hardcorereset.dimension;
+package com.phoenixprotocol.dimension;
 
-import com.hardcorereset.mixin.MinecraftServerAccessor;
-import com.hardcorereset.mixin.ServerLevelMixin;
+import com.phoenixprotocol.mixin.MinecraftServerAccessor;
+import com.phoenixprotocol.mixin.ServerLevelMixin;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -29,7 +29,7 @@ import java.util.Map;
  */
 public class DimensionManager {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger("HardcoreReset");
+    private static final Logger LOGGER = LoggerFactory.getLogger("PhoenixProtocol");
 
     public static final ResourceKey<Level> LIMBO = ResourceKey.create(Registries.DIMENSION, Identifier.parse("hardcore:limbo"));
 
@@ -46,7 +46,7 @@ public class DimensionManager {
             if (nether != null) { nether.save(null, true, false); nether.close(); }
             if (end != null) { end.save(null, true, false); end.close(); }
         } catch (Exception e) {
-            LOGGER.error("[HardcoreReset] Error saving/closing vanilla dimensions during wipe", e);
+            LOGGER.error("[PhoenixProtocol] Error saving/closing vanilla dimensions during wipe", e);
         }
 
         worlds.remove(Level.OVERWORLD);
@@ -56,7 +56,7 @@ public class DimensionManager {
         server.saveAllChunks(true, true, true);
 
         // Delete folders based on actual dimension paths
-        net.minecraft.world.level.storage.LevelStorageSource.LevelStorageAccess storageAccess = ((com.hardcorereset.mixin.MinecraftServerAccessor) server).getStorageSource();
+        net.minecraft.world.level.storage.LevelStorageSource.LevelStorageAccess storageAccess = ((com.phoenixprotocol.mixin.MinecraftServerAccessor) server).getStorageSource();
         
         // Wipe Overworld
         Path overworldDir = storageAccess.getDimensionPath(Level.OVERWORLD);
@@ -85,14 +85,14 @@ public class DimensionManager {
         deleteFolder(rootWorldDir.resolve("players/advancements"));
         deleteFolder(rootWorldDir.resolve("players/data"));
         
-        LOGGER.info("[HardcoreReset] Vanilla dimension files wiped.");
+        LOGGER.info("[PhoenixProtocol] Vanilla dimension files wiped.");
 
         // Randomize seed and reset time/weather
         ServerLevelData worldData = server.getWorldData().overworldData();
         worldData.setGameTime(0);
 
         net.minecraft.world.level.levelgen.WorldOptions options = server.getWorldGenSettings().options();
-        ((com.hardcorereset.mixin.WorldOptionsAccessor) (Object) options).setSeed(newSeed);
+        ((com.phoenixprotocol.mixin.WorldOptionsAccessor) (Object) options).setSeed(newSeed);
 
         // Recreate them
         RegistryAccess registryManager = server.registryAccess();
@@ -115,7 +115,7 @@ public class DimensionManager {
             String biomeStr = newOverworld.getBiome(net.minecraft.core.BlockPos.ZERO).toString();
             if (biomeStr.contains("ocean")) {
                 newSeed = new java.util.Random().nextLong();
-                ((com.hardcorereset.mixin.WorldOptionsAccessor) (Object) options).setSeed(newSeed);
+                ((com.phoenixprotocol.mixin.WorldOptionsAccessor) (Object) options).setSeed(newSeed);
                 attempts++;
             } else {
                 isOcean = false;
@@ -123,7 +123,7 @@ public class DimensionManager {
         }
         
         if (attempts > 0) {
-            LOGGER.info("[HardcoreReset] Rerolled seed {} times to avoid ocean spawn.", attempts);
+            LOGGER.info("[PhoenixProtocol] Rerolled seed {} times to avoid ocean spawn.", attempts);
         }
 
         newOverworld.resetWeatherCycle();
@@ -135,14 +135,14 @@ public class DimensionManager {
         worlds.put(Level.END, newEnd);
         
         server.saveAllChunks(true, true, true);
-        LOGGER.info("[HardcoreReset] Vanilla dimensions recreated with new seed: {}", newSeed);
+        LOGGER.info("[PhoenixProtocol] Vanilla dimensions recreated with new seed: {}", newSeed);
         return newSeed;
     }
 
     private static void deleteFolder(Path dir) {
-        LOGGER.warn("[HardcoreReset] Attempting to delete folder: {}", dir.toAbsolutePath());
+        LOGGER.warn("[PhoenixProtocol] Attempting to delete folder: {}", dir.toAbsolutePath());
         if (!Files.exists(dir)) {
-            LOGGER.warn("[HardcoreReset] Folder does not exist, skipping: {}", dir);
+            LOGGER.warn("[PhoenixProtocol] Folder does not exist, skipping: {}", dir);
             return;
         }
         try {
@@ -159,7 +159,7 @@ public class DimensionManager {
                             try { Thread.sleep(50); } catch (InterruptedException ignored) {}
                         }
                     }
-                    LOGGER.warn("[HardcoreReset] Could not delete file: {}", file);
+                    LOGGER.warn("[PhoenixProtocol] Could not delete file: {}", file);
                     return FileVisitResult.CONTINUE;
                 }
                 @Override
@@ -172,13 +172,13 @@ public class DimensionManager {
                             try { Thread.sleep(50); } catch (InterruptedException ignored) {}
                         }
                     }
-                    LOGGER.warn("[HardcoreReset] Could not delete directory: {}", directory);
+                    LOGGER.warn("[PhoenixProtocol] Could not delete directory: {}", directory);
                     return FileVisitResult.CONTINUE;
                 }
             });
-            LOGGER.warn("[HardcoreReset] Successfully deleted {} files in {}", deletedFiles.get(), dir);
+            LOGGER.warn("[PhoenixProtocol] Successfully deleted {} files in {}", deletedFiles.get(), dir);
         } catch (IOException e) {
-            LOGGER.error("[HardcoreReset] Failed to walk folder for deletion: {}", dir, e);
+            LOGGER.error("[PhoenixProtocol] Failed to walk folder for deletion: {}", dir, e);
         }
     }
 }

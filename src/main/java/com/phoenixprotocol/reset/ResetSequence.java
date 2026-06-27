@@ -1,10 +1,10 @@
-package com.hardcorereset.reset;
+package com.phoenixprotocol.reset;
 
-import com.hardcorereset.HardcoreResetMod;
-import com.hardcorereset.config.HardcoreConfig;
-import com.hardcorereset.death.DeathTracker;
-import com.hardcorereset.dimension.DimensionManager;
-import com.hardcorereset.lobby.LobbyBuilder;
+import com.phoenixprotocol.PhoenixProtocolMod;
+import com.phoenixprotocol.config.HardcoreConfig;
+import com.phoenixprotocol.death.DeathTracker;
+import com.phoenixprotocol.dimension.DimensionManager;
+import com.phoenixprotocol.lobby.LobbyBuilder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.PlayerEnderChestContainer;
@@ -37,7 +37,7 @@ import java.util.Random;
 
 public class ResetSequence {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger("HardcoreReset");
+    private static final Logger LOGGER = LoggerFactory.getLogger("PhoenixProtocol");
     private static final BlockPos LOBBY_POSITION = new BlockPos(0, 100, 0);
 
     public static void execute(
@@ -46,8 +46,8 @@ public class ResetSequence {
             HardcoreConfig config,
             DeathTracker deathTracker
     ) {
-        LOGGER.warn("[HardcoreReset] ===== WORLD RESET SEQUENCE INITIATED =====");
-        LOGGER.warn("[HardcoreReset] Triggered by: {}", triggerPlayer.getName().getString());
+        LOGGER.warn("[PhoenixProtocol] ===== WORLD RESET SEQUENCE INITIATED =====");
+        LOGGER.warn("[PhoenixProtocol] Triggered by: {}", triggerPlayer.getName().getString());
 
         long startTime = System.currentTimeMillis();
 
@@ -72,12 +72,12 @@ public class ResetSequence {
             step10_announce(server, resetNumber);
 
             long elapsed = System.currentTimeMillis() - startTime;
-            LOGGER.info("[HardcoreReset] ===== RESET COMPLETE in {}ms (Reset #{}) =====", elapsed, resetNumber);
+            LOGGER.info("[PhoenixProtocol] ===== RESET COMPLETE in {}ms (Reset #{}) =====", elapsed, resetNumber);
 
         } catch (Exception e) {
-            LOGGER.error("[HardcoreReset] !!!!! CRITICAL ERROR DURING RESET !!!!!", e);
+            LOGGER.error("[PhoenixProtocol] !!!!! CRITICAL ERROR DURING RESET !!!!!", e);
             server.getPlayerList().broadcastSystemMessage(
-                    Component.literal("[HardcoreReset] CRITICAL ERROR during reset! Check server logs.")
+                    Component.literal("[PhoenixProtocol] CRITICAL ERROR during reset! Check server logs.")
                             .withStyle(ChatFormatting.RED),
                     false
             );
@@ -85,7 +85,7 @@ public class ResetSequence {
     }
 
     public static void reviveDeadPlayers(MinecraftServer server) {
-        LOGGER.info("[HardcoreReset] Pre-Step: Removing dead players to prevent ghost entities");
+        LOGGER.info("[PhoenixProtocol] Pre-Step: Removing dead players to prevent ghost entities");
         List<ServerPlayer> deadPlayers = new java.util.ArrayList<>();
         for (ServerPlayer player : server.getPlayerList().getPlayers()) {
             if (player.isDeadOrDying()) {
@@ -93,7 +93,7 @@ public class ResetSequence {
             }
         }
         for (ServerPlayer player : deadPlayers) {
-            LOGGER.info("[HardcoreReset]   Kicking dead player: {}", player.getName().getString());
+            LOGGER.info("[PhoenixProtocol]   Kicking dead player: {}", player.getName().getString());
             // Disconnect the player — this triggers async removal
             player.connection.disconnect(Component.literal("§cWorld is resetting!\n§fPlease reconnect to join the new world."));
             // Immediately remove their entity from the world so no ghost lingers
@@ -109,7 +109,7 @@ public class ResetSequence {
     }
 
     private static void step1_broadcast(MinecraftServer server, ServerPlayer triggerPlayer) {
-        LOGGER.info("[HardcoreReset] Step 1: Broadcasting reset announcement");
+        LOGGER.info("[PhoenixProtocol] Step 1: Broadcasting reset announcement");
 
         String playerName = triggerPlayer.getName().getString();
 
@@ -129,11 +129,11 @@ public class ResetSequence {
     }
 
     private static void step2_evacuate(MinecraftServer server) {
-        LOGGER.info("[HardcoreReset] Step 2: Evacuating players to Limbo");
+        LOGGER.info("[PhoenixProtocol] Step 2: Evacuating players to Limbo");
 
         ServerLevel lobby = server.getLevel(DimensionManager.LIMBO);
         if (lobby == null) {
-            LOGGER.error("[HardcoreReset] Limbo dimension not found! Cannot evacuate.");
+            LOGGER.error("[PhoenixProtocol] Limbo dimension not found! Cannot evacuate.");
             return;
         }
 
@@ -145,7 +145,7 @@ public class ResetSequence {
             // If somehow one slipped through (died during countdown after pre-step),
             // kick them now rather than leaving a broken entity in a doomed dimension.
             if (player.isDeadOrDying()) {
-                LOGGER.warn("[HardcoreReset]   Player {} is still dead during evacuation, kicking", player.getName().getString());
+                LOGGER.warn("[PhoenixProtocol]   Player {} is still dead during evacuation, kicking", player.getName().getString());
                 player.connection.disconnect(Component.literal("§cWorld is resetting!\n§fPlease reconnect to join the new world."));
                 ServerLevel level = (ServerLevel) player.level();
                 if (level != null) {
@@ -170,11 +170,11 @@ public class ResetSequence {
             }
         }
 
-        LOGGER.info("[HardcoreReset]   {} players evacuated to Limbo", evacuated);
+        LOGGER.info("[PhoenixProtocol]   {} players evacuated to Limbo", evacuated);
     }
 
     private static void step3_clearPlayers(MinecraftServer server, HardcoreConfig config) {
-        LOGGER.info("[HardcoreReset] Step 3: Clearing all player data");
+        LOGGER.info("[PhoenixProtocol] Step 3: Clearing all player data");
 
         for (ServerPlayer player : server.getPlayerList().getPlayers()) {
             Inventory inventory = player.getInventory();
@@ -195,7 +195,7 @@ public class ResetSequence {
             player.setGameMode(server.getDefaultGameType());
             
             if (config.isWipeStats()) {
-                com.hardcorereset.mixin.StatsCounterAccessor accessor = (com.hardcorereset.mixin.StatsCounterAccessor) player.getStats();
+                com.phoenixprotocol.mixin.StatsCounterAccessor accessor = (com.phoenixprotocol.mixin.StatsCounterAccessor) player.getStats();
                 if (accessor.getStats() != null) {
                     for (net.minecraft.stats.Stat<?> stat : new java.util.ArrayList<>(accessor.getStats().keySet())) {
                         player.resetStat(stat); // Sets to 0 on the client temporarily
@@ -206,9 +206,9 @@ public class ResetSequence {
         
         if (config.isWipeStats()) {
             // ACTUALLY clear the stats map for ALL players cached in memory (including offline ones)
-            java.util.Map<java.util.UUID, net.minecraft.stats.ServerStatsCounter> allStats = ((com.hardcorereset.mixin.PlayerListAccessor) server.getPlayerList()).getStats();
+            java.util.Map<java.util.UUID, net.minecraft.stats.ServerStatsCounter> allStats = ((com.phoenixprotocol.mixin.PlayerListAccessor) server.getPlayerList()).getStats();
             for (net.minecraft.stats.ServerStatsCounter counter : allStats.values()) {
-                com.hardcorereset.mixin.StatsCounterAccessor accessor = (com.hardcorereset.mixin.StatsCounterAccessor) counter;
+                com.phoenixprotocol.mixin.StatsCounterAccessor accessor = (com.phoenixprotocol.mixin.StatsCounterAccessor) counter;
                 if (accessor.getStats() != null) {
                     accessor.getStats().clear();
                 }
@@ -223,14 +223,14 @@ public class ResetSequence {
     }
 
     private static long step4_destroyDimensions(MinecraftServer server, HardcoreConfig config) {
-        LOGGER.info("[HardcoreReset] Step 4: Wiping vanilla dimensions");
+        LOGGER.info("[PhoenixProtocol] Step 4: Wiping vanilla dimensions");
         long initialSeed = config.isChangeSeedOnReset() ? new Random().nextLong() : server.getWorldGenSettings().options().seed();
         long newSeed = DimensionManager.wipeVanillaDimensions(server, initialSeed, config.isChangeSeedOnReset());
         return newSeed;
     }
 
     private static void step5_wipePlayerFiles(MinecraftServer server, HardcoreConfig config) {
-        LOGGER.info("[HardcoreReset] Step 5: Wiping player data files from disk");
+        LOGGER.info("[PhoenixProtocol] Step 5: Wiping player data files from disk");
 
         Path worldDir = server.getWorldPath(net.minecraft.world.level.storage.LevelResource.ROOT);
 
@@ -240,22 +240,22 @@ public class ResetSequence {
         if (config.isWipeAdvancements()) {
             deleteDirectoryContents(worldDir.resolve("advancements"), "advancements");
             deleteDirectoryContents(worldDir.resolve("players/advancements"), "advancements (players/advancements)");
-            ((com.hardcorereset.mixin.PlayerListAccessor) server.getPlayerList()).getAdvancements().clear();
+            ((com.phoenixprotocol.mixin.PlayerListAccessor) server.getPlayerList()).getAdvancements().clear();
         }
         
         if (config.isWipeStats()) {
             deleteDirectoryContents(worldDir.resolve("stats"), "stats");
             deleteDirectoryContents(worldDir.resolve("players/stats"), "stats (players/stats)");
-            ((com.hardcorereset.mixin.PlayerListAccessor) server.getPlayerList()).getStats().clear();
+            ((com.phoenixprotocol.mixin.PlayerListAccessor) server.getPlayerList()).getStats().clear();
         }
 
         // Restore online players into the PlayerList caches so their data saves correctly when they eventually log out
         for (net.minecraft.server.level.ServerPlayer player : server.getPlayerList().getPlayers()) {
             if (config.isWipeAdvancements()) {
-                ((com.hardcorereset.mixin.PlayerListAccessor) server.getPlayerList()).getAdvancements().put(player.getUUID(), player.getAdvancements());
+                ((com.phoenixprotocol.mixin.PlayerListAccessor) server.getPlayerList()).getAdvancements().put(player.getUUID(), player.getAdvancements());
             }
             if (config.isWipeStats()) {
-                ((com.hardcorereset.mixin.PlayerListAccessor) server.getPlayerList()).getStats().put(player.getUUID(), player.getStats());
+                ((com.phoenixprotocol.mixin.PlayerListAccessor) server.getPlayerList()).getStats().put(player.getUUID(), player.getStats());
             }
         }
     }
@@ -279,21 +279,21 @@ public class ResetSequence {
                     return FileVisitResult.CONTINUE;
                 }
             });
-            LOGGER.info("[HardcoreReset]   Wiped {} folder", name);
+            LOGGER.info("[PhoenixProtocol]   Wiped {} folder", name);
         } catch (IOException e) {
-            LOGGER.error("[HardcoreReset]   Failed to wipe {} folder", name, e);
+            LOGGER.error("[PhoenixProtocol]   Failed to wipe {} folder", name, e);
         }
     }
 
     private static int step6_updateState(HardcoreConfig config, DeathTracker deathTracker) {
-        LOGGER.info("[HardcoreReset] Step 6: Updating config and resetting death counts");
+        LOGGER.info("[PhoenixProtocol] Step 6: Updating config and resetting death counts");
         int resetNumber = config.incrementResetCount();
         deathTracker.resetCycleCounts();
         return resetNumber;
     }
 
     private static void step7_rebuildDimensions(MinecraftServer server, long newSeed) {
-        LOGGER.info("[HardcoreReset] Step 7: Rebuilding skipped (handled in step 4), resetting time to 0");
+        LOGGER.info("[PhoenixProtocol] Step 7: Rebuilding skipped (handled in step 4), resetting time to 0");
         server.getCommands().performPrefixedCommand(server.createCommandSourceStack(), "time set 0");
     }
 
@@ -336,7 +336,7 @@ public class ResetSequence {
     }
 
     private static void step8_applyChunkTickets(MinecraftServer server) {
-        LOGGER.info("[HardcoreReset] Step 8: Finding safe spawn and applying tickets");
+        LOGGER.info("[PhoenixProtocol] Step 8: Finding safe spawn and applying tickets");
 
         ServerLevel overworld = server.getLevel(Level.OVERWORLD);
         if (overworld == null) return;
@@ -349,7 +349,7 @@ public class ResetSequence {
     }
 
     private static void step9_returnPlayers(MinecraftServer server) {
-        LOGGER.info("[HardcoreReset] Step 9: Returning players to new world");
+        LOGGER.info("[PhoenixProtocol] Step 9: Returning players to new world");
 
         ServerLevel overworld = server.getLevel(Level.OVERWORLD);
         if (overworld == null) return;
@@ -379,7 +379,7 @@ public class ResetSequence {
      * This step re-sends all critical state packets to fix that.
      */
     private static void step9b_resyncPlayers(MinecraftServer server) {
-        LOGGER.info("[HardcoreReset] Step 9b: Resyncing all player client states");
+        LOGGER.info("[PhoenixProtocol] Step 9b: Resyncing all player client states");
 
         for (ServerPlayer player : server.getPlayerList().getPlayers()) {
             // Force gamemode — ensures the player isn't stuck in spectator/adventure
@@ -407,7 +407,7 @@ public class ResetSequence {
     }
 
     private static void step10_announce(MinecraftServer server, int resetNumber) {
-        LOGGER.info("[HardcoreReset] Step 10: Announcing new world (Reset #{})", resetNumber);
+        LOGGER.info("[PhoenixProtocol] Step 10: Announcing new world (Reset #{})", resetNumber);
 
         Component chatMessage = Component.literal("✦ A new world has been born! Good luck. (Reset #" + resetNumber + ") ✦")
                 .withStyle(ChatFormatting.GREEN, ChatFormatting.BOLD);

@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "id": "hardcorereset",
+  "id": "phoenixprotocol",
   "version": "${version}",
-  "name": "HardcoreReset",
+  "name": "The-Phoenix-Protocol",
   "description": "Server-side mod that tracks player deaths and resets the entire world when a death threshold is reached. Uses disposable dimensions so the root overworld acts as a safe lobby.",
   "authors": ["Mitchell"],
   "contact": {},
   "license": "MIT",
   "environment": "server",
   "entrypoints": {
-    "server": ["com.hardcorereset.HardcoreResetMod"]
+    "server": ["com.phoenixprotocol.PhoenixProtocolMod"]
   },
-  "mixins": ["hardcorereset.mixins.json"],
+  "mixins": ["phoenixprotocol.mixins.json"],
   "depends": {
     "fabricloader": ">=0.16.0",
     "fabric-api": "*",
@@ -19,3 +19,4 @@
     "java": ">=25"
   }
 }
+

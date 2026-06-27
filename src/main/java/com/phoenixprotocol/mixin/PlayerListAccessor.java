@@ -1,4 +1,4 @@
-package com.hardcorereset.mixin;
+package com.phoenixprotocol.mixin;
 
 import net.minecraft.server.players.PlayerList;
 import net.minecraft.server.PlayerAdvancements;

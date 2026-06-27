@@ -1,9 +1,9 @@
-package com.hardcorereset.death;
+package com.phoenixprotocol.death;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.hardcorereset.config.HardcoreConfig;
+import com.phoenixprotocol.config.HardcoreConfig;
 import net.minecraft.server.level.ServerPlayer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Tracks player deaths.
  */
 public class DeathTracker {
-    private static final Logger LOGGER = LoggerFactory.getLogger("HardcoreReset");
+    private static final Logger LOGGER = LoggerFactory.getLogger("PhoenixProtocol");
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     
     private final Map<UUID, Integer> cycleDeaths = new ConcurrentHashMap<>();
@@ -29,7 +29,7 @@ public class DeathTracker {
     private final Path statsFile;
 
     public DeathTracker(Path runDirectory) {
-        Path configDir = runDirectory.resolve("config").resolve("hardcorereset");
+        Path configDir = runDirectory.resolve("config").resolve("phoenixprotocol");
         this.statsFile = configDir.resolve("death_stats.json");
         loadStats();
     }
@@ -61,12 +61,12 @@ public class DeathTracker {
 
     public void resetCycleCounts() {
         cycleDeaths.clear();
-        LOGGER.info("[HardcoreReset] Cycle death counts have been reset");
+        LOGGER.info("[PhoenixProtocol] Cycle death counts have been reset");
     }
 
     public void resetPlayerCycleCount(UUID uuid) {
         cycleDeaths.remove(uuid);
-        LOGGER.info("[HardcoreReset] Cycle death count for {} has been reset", uuid);
+        LOGGER.info("[PhoenixProtocol] Cycle death count for {} has been reset", uuid);
     }
 
     private void loadStats() {
@@ -78,7 +78,7 @@ public class DeathTracker {
                 lifetimeDeaths.putAll(loaded);
             }
         } catch (IOException e) {
-            LOGGER.error("[HardcoreReset] Failed to load death stats", e);
+            LOGGER.error("[PhoenixProtocol] Failed to load death stats", e);
         }
     }
 
@@ -89,7 +89,7 @@ public class DeathTracker {
                 GSON.toJson(lifetimeDeaths, writer);
             }
         } catch (IOException e) {
-            LOGGER.error("[HardcoreReset] Failed to save death stats", e);
+            LOGGER.error("[PhoenixProtocol] Failed to save death stats", e);
         }
     }
 }
