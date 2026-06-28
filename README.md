@@ -2,6 +2,9 @@
 
 The Phoenix Protocol is a server-side Fabric mod for Minecraft that tracks player deaths and resets the entire world when a death threshold is reached. It utilizes a safe "limbo" lobby dimension, allowing the root overworld to act as a disposable and resettable environment without kicking players from the server.
 
+This mod attempts to make a one life "Hardcore" experience to a server.
+
+The main reason for creating this mod was to create a feature that allows some players to have higher death caps, so if you are playing with friends who arent quite as good or younger siblings, you can give them more lifes to make it fair. Alongside this, I added many features such as being able to add exempt dimensions, set bans for the user who triggered the reset, choose what things to wipe, and if you can count pvp deaths. All of this allows you to configure the mod exactly to your liking, and if you have any other recomendations for features, let me know! I would love to hear them.
 ## Features
 
 - **Death Tracking:** Tracks the number of lives each player has remaining in the current cycle.
@@ -40,4 +43,5 @@ These commands allow you to modify the server's reset behavior and rules on the 
 ### Bug Feedback and Version Information
 
 As of right now, this mod is only avaialble for version 26.2 (as it is currently the latest non snapshot version). I do not plan to update this regularly unless asked to. I do not plan on backporting so do not create an Issue ticket unless you are requesting an update to a NEWER version.
+
 If you find any major bugs / issues, feel free to leave a ticket in issues and i will try to respond in a timely manner. 
