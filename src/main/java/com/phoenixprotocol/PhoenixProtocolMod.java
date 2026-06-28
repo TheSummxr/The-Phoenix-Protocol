@@ -14,13 +14,9 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.network.chat.Component;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.gamerules.GameRules;
-import net.minecraft.world.level.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -44,7 +40,7 @@ public class PhoenixProtocolMod implements DedicatedServerModInitializer {
     public void onInitializeServer() {
         INSTANCE = this;
         LOGGER.info("[PhoenixProtocol] ═══════════════════════════════════════════");
-        LOGGER.info("[PhoenixProtocol]   HardcoreReset Mod Initializing (Mojmap)");
+        LOGGER.info("[PhoenixProtocol]   The Phoenix Protocol Initializing (Mojmap)");
         LOGGER.info("[PhoenixProtocol] ═══════════════════════════════════════════");
 
         ServerLifecycleEvents.SERVER_STARTED.register(this::onServerStarted);
@@ -254,7 +250,7 @@ public class PhoenixProtocolMod implements DedicatedServerModInitializer {
         int remaining = Math.max(0, limit - cycleDeaths);
 
         player.sendSystemMessage(
-                Component.literal("§7[§4HardcoreReset§7] §fYou have §c" + remaining
+                Component.literal("§7[§4PhoenixProtocol§7] §fYou have §c" + remaining
                         + "§f " + (remaining == 1 ? "life" : "lives") + " remaining this cycle.")
         );
     }
@@ -266,7 +262,7 @@ public class PhoenixProtocolMod implements DedicatedServerModInitializer {
         int limit = config.getDeathLimit(player);
         int remaining = Math.max(0, limit - cycleDeaths);
 
-        Component deathMessage = Component.literal("§7[§4HardcoreReset§7] §f" + player.getName().getString()
+        Component deathMessage = Component.literal("§7[§4PhoenixProtocol§7] §f" + player.getName().getString()
                 + " has died! §c" + remaining + "§f "
                 + (remaining == 1 ? "life" : "lives") + " remaining.");
         server.getPlayerList().broadcastSystemMessage(deathMessage, false);

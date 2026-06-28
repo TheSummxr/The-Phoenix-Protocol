@@ -31,7 +31,7 @@ public class DimensionManager {
 
     private static final Logger LOGGER = LoggerFactory.getLogger("PhoenixProtocol");
 
-    public static final ResourceKey<Level> LIMBO = ResourceKey.create(Registries.DIMENSION, Identifier.parse("hardcore:limbo"));
+    public static final ResourceKey<Level> LIMBO = ResourceKey.create(Registries.DIMENSION, Identifier.parse("phoenixprotocol:limbo"));
 
     public static long wipeVanillaDimensions(MinecraftServer server, long newSeed, boolean rerollIfOcean) {
         MinecraftServerAccessor serverAccessor = (MinecraftServerAccessor) server;

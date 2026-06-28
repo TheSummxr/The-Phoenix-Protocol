@@ -2,13 +2,11 @@ package com.phoenixprotocol.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import net.minecraft.server.level.ServerPlayer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -17,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Manages the mod's JSON configuration file at {@code config/hardcorereset/config.json}.
+ * Manages the mod's JSON configuration file at {@code config/phoenixprotocol/config.json}.
  * <p>
  * Configuration schema:
  * <pre>{@code
